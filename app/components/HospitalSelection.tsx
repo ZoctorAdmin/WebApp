@@ -1,17 +1,12 @@
 import { Building2, MapPin, Clock, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface Hospital {
-  name: string;
-  location: string;
-  status: string;
-}
+import { Hospital } from "@/types/database";
 
 interface HospitalSelectionProps {
   hospitals: Hospital[];
-  selectedHospital: string;
+  selectedHospital: Hospital | null;
   searchQuery: string;
-  onHospitalSelect: (hospitalName: string) => void;
+  onHospitalSelect: (hospital: Hospital) => void;
   onSearchChange: (query: string) => void;
 }
 
@@ -42,11 +37,11 @@ export default function HospitalSelection({
       <div className="p-4 space-y-4">
         {hospitals.map((hospital) => (
           <button
-            key={hospital.name}
-            onClick={() => onHospitalSelect(hospital.name)}
+            key={hospital.id}
+            onClick={() => onHospitalSelect(hospital)}
             className={cn(
               "w-full p-4 rounded-lg border text-left transition-all",
-              selectedHospital === hospital.name
+              selectedHospital?.id === hospital.id
                 ? "border-blue-500 bg-blue-50"
                 : "border-gray-200 hover:border-blue-200"
             )}
@@ -54,11 +49,11 @@ export default function HospitalSelection({
             <h3 className="font-semibold text-lg">{hospital.name}</h3>
             <div className="flex items-center gap-2 text-gray-500 mt-2">
               <MapPin className="w-4 h-4" />
-              <span className="text-sm">{hospital.location}</span>
+              <span className="text-sm">{hospital.city}</span>
             </div>
             <div className="flex items-center gap-2 text-blue-500 mt-1">
               <Clock className="w-4 h-4" />
-              <span className="text-sm">{hospital.status}</span>
+              <span className="text-sm">{hospital.state}</span>
             </div>
           </button>
         ))}

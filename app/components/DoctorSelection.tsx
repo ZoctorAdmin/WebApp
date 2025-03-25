@@ -1,17 +1,12 @@
 import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface Doctor {
-  name: string;
-  specialization: string;
-  fee: string;
-}
+import { Doctor } from "@/types/database";
 
 interface DoctorSelectionProps {
   doctors: Doctor[];
-  selectedDoctor: string;
+  selectedDoctor: Doctor | null;
   searchQuery: string;
-  onDoctorSelect: (doctorName: string) => void;
+  onDoctorSelect: (doctor: Doctor) => void;
   onSearchChange: (query: string) => void;
 }
 
@@ -42,18 +37,18 @@ export default function DoctorSelection({
       <div className="p-4 space-y-4">
         {doctors.map((doctor) => (
           <button
-            key={doctor.name}
-            onClick={() => onDoctorSelect(doctor.name)}
+            key={doctor.id}
+            onClick={() => onDoctorSelect(doctor)}
             className={cn(
               "w-full p-4 rounded-lg border text-left transition-all",
-              selectedDoctor === doctor.name
+              selectedDoctor?.id === doctor.id
                 ? "border-blue-500 bg-blue-50"
                 : "border-gray-200 hover:border-blue-200"
             )}
           >
-            <h3 className="font-semibold text-lg">{doctor.name}</h3>
-            <p className="text-gray-500 mt-1">{doctor.specialization}</p>
-            <p className="text-blue-500 font-semibold mt-2">{doctor.fee}</p>
+            <h3 className="font-semibold text-lg">Dr.{doctor.name}</h3>
+            <p className="text-gray-500 mt-1">{doctor.speciality}</p>
+            <p className="text-blue-500 font-semibold mt-2">Rs.{doctor.consultation_fee}</p>
           </button>
         ))}
       </div>
