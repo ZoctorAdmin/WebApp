@@ -36,27 +36,27 @@ const getDynamicDateOptions = (): DateOptionType[] => {
   later.setDate(later.getDate() + 2);
 
   const formatDate = (date: Date): string => {
-    return date.toLocaleDateString('en-US', { 
-      weekday: 'short', 
-      month: 'short', 
-      day: 'numeric' 
+    return date.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric'
     });
   };
 
   return [
-    { 
-      id: "today", 
-      label: "Today", 
+    {
+      id: "today",
+      label: "Today",
       subLabel: formatDate(today)
     },
-    { 
-      id: "tomorrow", 
-      label: "Tomorrow", 
+    {
+      id: "tomorrow",
+      label: "Tomorrow",
       subLabel: formatDate(tomorrow)
     },
-    { 
-      id: "later", 
-      label: formatDate(later), 
+    {
+      id: "later",
+      label: formatDate(later),
       subLabel: "Available"
     }
   ];
@@ -64,7 +64,7 @@ const getDynamicDateOptions = (): DateOptionType[] => {
 
 const getTimeSlots = (): TimeSlotType[] => {
   const currentHour = new Date().getHours();
-  
+
   // If it's past 8 PM, show only next day slots
   if (currentHour >= 20) {
     return [
@@ -73,14 +73,14 @@ const getTimeSlots = (): TimeSlotType[] => {
       { id: "evening", label: "Evening", time: "3 PM - 8 PM" }
     ];
   }
-  
+
   // If it's past 3 PM, show only evening slots
   if (currentHour >= 15) {
     return [
       { id: "evening", label: "Evening", time: "3 PM - 8 PM" }
     ];
   }
-  
+
   // If it's past 12 PM, show afternoon and evening slots
   if (currentHour >= 12) {
     return [
@@ -88,7 +88,7 @@ const getTimeSlots = (): TimeSlotType[] => {
       { id: "evening", label: "Evening", time: "3 PM - 8 PM" }
     ];
   }
-  
+
   // If it's past 8 AM, show remaining morning slots and later slots
   if (currentHour >= 8) {
     return [
@@ -97,7 +97,7 @@ const getTimeSlots = (): TimeSlotType[] => {
       { id: "evening", label: "Evening", time: "3 PM - 8 PM" }
     ];
   }
-  
+
   // Before 8 AM, show all slots
   return [
     { id: "morning", label: "Morning", time: "8 AM - 12 PM" },
@@ -275,7 +275,7 @@ export default function Home() {
     try {
       const appointment = {
         patient_id: 13,
-        appointment_id: 23,
+        appointment_id: Math.floor((Math.random() * 1000) + 1),
         hospital_id: selectedHospital.id,
         doctor_id: selectedDoctor.id,
         appointment_date: getDateFromOption(selectedDate).toString(),
